@@ -72,3 +72,15 @@ new entries.
 - **AI-written code:** `tasks/task3_2/form.html` (copied exactly from the task README).
 - **Grey areas / notes:** Classroom task, not assessed.
 - **Follow-up (Task 3.2):** Andy completed the GET pass (saw `?email=hello%40gmail.com` in the request line, no body). At Andy's explicit request, AI changed `method="GET"` to `method="POST"` in `tasks/task3_2/form.html` (one-attribute edit, step 6 of the task).
+
+### 2026-11-03: Task 3.2 close-out, Task 3.3 kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **Work covered:** Finished Task 3.2 and scoped Task 3.3.
+- **AI did:**
+  - Explained the core lesson of Task 3.2 (where GET and POST put form data, safe vs state-changing methods, URL encoding) and clarified that server-side validation applies to every request, GET included.
+  - Committed Task 3.1, Task 3.2, and the log/CLAUDE.md as three separate commits. `git push` failed because no GitHub credentials are available in this shell, so the commits are local only.
+  - Fetched guide section HTTP > Responses (Task 3.3). The task README links to the Requests page, but the instructions are on the Responses page. Checked that `uv` is not installed.
+- **Student did:** Ran both the GET and POST passes of Task 3.2 and read the httpbin output.
+- **AI-written code:** None this entry.
+- **Grey areas / notes:** Classroom task, not assessed.
