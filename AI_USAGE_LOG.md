@@ -121,3 +121,12 @@ new entries.
 - **AI-written code:** None. Made `gradlew` executable with `chmod +x`.
 - **Grey areas / notes:** Classroom task, not assessed. `/pebble-index` returned 500 because the generator's template lives in `resources/` but the Pebble loader looks in `resources/templates/`. This was reported to Andy, not fixed.
 - **Follow-up:** Committed Task 4.2 as generated. Pebble path bug left unfixed by choice (no source edits without an explicit request). Scoped Task 4.3.
+
+### 2026-11-03: Task 4.3 - step 1
+
+- **AI did:** At Andy's request, ran step 1. `./run` returned 404 Not Found at `/` as expected because `resources/static/` does not exist yet. Stopped the server, then paused for Andy to write the HTML pages (steps 2 and 5).
+- **AI-written code:** None.
+- **Follow-up (Task 4.3):** At Andy's explicit request, AI wrote `tasks/task4_3/resources/static/index.html` and `about.html` (two minimal pages linked to each other) and showed the code in chat. Built the project and listed the JAR, which contains `static/index.html` and `static/about.html`. The JAR is in `build/tasks/_task4_3_jarJvm/`, not in the `_compileJvm` path given in the guide. Ran the server: `/` and `/about.html` returned 200 `text/html`, and `/missing.html` returned 404. Left the server running so Andy could check it in the browser.
+- **AI-written code:** `tasks/task4_3/resources/static/index.html`, `tasks/task4_3/resources/static/about.html`.
+- **Follow-up (Task 4.3):** At Andy's request, changed the `index.html` heading to `Home (edited)` while the server was running. The server kept serving the old heading until it was rebuilt and restarted, which demonstrates that resources are packaged into the JAR. Server left running for Andy to view.
+- **Follow-up:** Stopped the server, ran `./kotlin clean`, and committed Task 4.3.
