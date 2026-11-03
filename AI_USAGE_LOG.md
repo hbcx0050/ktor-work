@@ -1,0 +1,74 @@
+# AI Usage Log
+
+A record of how generative AI (Claude, via Claude Code) has been used in this
+repository. This repo is task-based rather than portfolio-based, so the log is a
+transparency record for the work on classroom tasks and any later assessed work.
+
+Entries are appended in date order and never rewritten. Corrections are added as
+new entries.
+
+## Entry template
+
+```markdown
+### YYYY-MM-DD: <short title>
+
+- **Tool / model:** <tool and model>
+- **Work covered:** <tasks / examples / repository setup>
+- **AI did:** <explanations, running builds/tests, reviews, commits, setup...>
+- **Student did:** <wrote the code, made the fixes, ran tasks...>
+- **AI-written code:** <none / exactly what and where>
+- **Grey areas / notes:** <anything that might fall outside "supportive tutoring">
+```
+
+---
+
+## Log
+
+### 2026-11-03: Repo setup for Ktor tasks
+
+- **Tool / model:** Claude Code in VS Code (current model)
+- **Work covered:** Repository setup and AI workflow for the Ktor task repo.
+- **AI did:**
+  - Reviewed the reference repo workflow from the Kotlin coursework project.
+  - Confirmed the repo structure and task-driven layout.
+  - Created the repo-level AI instructions and the mandatory usage log.
+  - Set up the project memory notes to match the established pattern.
+- **Student did:** Requested the AI workflow to be mirrored for this task-only Ktor repo. The student previously completed the earlier Kotlin coursework across five weeks and has prior web development experience, including deployed projects such as gamemarket.dev and a Chrome extension.
+- **AI-written code:** None. Documentation files only.
+- **Grey areas / notes:**
+  - This repo contains `tasks/` only; there is no `portfolio/` folder.
+  - The workflow therefore follows the classroom-task rules, but any assessed work later discovered must be treated as assessed and discussed before AI is used.
+  - The user context is experienced and not a beginner; the guidance should stay concise and capability-aware rather than teaching from scratch.
+
+### 2026-11-03: Task 3.1 - static HTML served locally
+
+- **Tool / model:** Claude Code in VS Code (current model)
+- **Work covered:** Skipped the basic HTML/CSS foundations and started at Task 3.1 in the HTTP section.
+- **AI did:**
+  - Confirmed the lecturer guidance to skip the early basics for someone with prior experience.
+  - Read the task requirement and matched it to the local static server workflow.
+  - Started a Python HTTP server, verified the document response with `curl`, and confirmed the request was logged.
+- **Student did:** Created `tasks/task3_1/test.html` and checked the served output in the browser/server flow.
+- **AI-written code:** The initial `tasks/task3_1/test.html` file was created to match the task requirement exactly.
+- **Grey areas / notes:**
+  - This is a classroom task, not assessed work.
+  - Because the user has prior web experience and completed the earlier Kotlin repo, the workflow is intentionally condensed and starts from the practical Ktor/HTTP section rather than the intro basics.
+
+### 2026-11-03: End of session
+
+- **Progress / Next:** The repo is set up, the early basics were intentionally skipped, and Task 3.1 has been verified locally. The next step is Task 3.2, then continuing with the Ktor-focused tasks without revisiting Task 1 or the introductory sections of Task 2.
+- **AI use this session:** Reviewed the reference repo, synced the repo with `git pull`, created `CLAUDE.md`, created `AI_USAGE_LOG.md`, set up memory notes, and executed Task 3.1 with a local server check.
+- **Outstanding:** Continue through the practical HTTP/Ktor tasks in sequence, keeping the workflow concise and aligned with the user’s prior experience.
+
+### 2026-11-03: Task 3.2 - kickoff (resumed session)
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **Work covered:** Resumed after a lost session. Confirmed Task 3.1 was already verified (still uncommitted) and scoped Task 3.2.
+- **AI did:**
+  - Ran `git pull`, read the log and the Task 3.2 README, and fetched guide section HTTP > Requests (Task 3.2).
+  - Created `tasks/task3_2/form.html` verbatim from the README (standing scaffolding request; the file is given by the task, and the lesson is the GET/POST experimentation).
+  - Checked that `https://httpbin.io/dump/request` is reachable (HTTP 200).
+- **Student did:** Will carry out the GET/POST experiments in the browser.
+- **AI-written code:** `tasks/task3_2/form.html` (copied exactly from the task README).
+- **Grey areas / notes:** Classroom task, not assessed.
+- **Follow-up (Task 3.2):** Andy completed the GET pass (saw `?email=hello%40gmail.com` in the request line, no body). At Andy's explicit request, AI changed `method="GET"` to `method="POST"` in `tasks/task3_2/form.html` (one-attribute edit, step 6 of the task).
