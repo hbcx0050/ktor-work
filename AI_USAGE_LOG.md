@@ -131,3 +131,13 @@ new entries.
 - **Follow-up (Task 4.3):** At Andy's request, changed the `index.html` heading to `Home (edited)` while the server was running. The server kept serving the old heading until it was rebuilt and restarted, which demonstrates that resources are packaged into the JAR. Server left running for Andy to view.
 - **Follow-up:** Stopped the server, ran `./kotlin clean`, and committed Task 4.3.
 - **Follow-up:** Andy switched `origin` to SSH (`git@github.com:hbcx0050/ktor-work.git`) and pushed. AI confirmed `main` is in sync with `origin/main`. Pushing now works from Claude's shell.
+
+### 2026-11-03: Task 4.4 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Fetched guide section 4.4 (Ktor > Serving Data) and scoped the task. Following the standing scaffolding request, created `tasks/task4_4/src/DieRoll.kt` containing only a header comment, the `Serializable` import and a `// TODO` describing the class for Andy to write. Confirmed the project builds, then ran `./kotlin clean`.
+- **AI-written code:** None functional. `DieRoll.kt` is a scaffold with a TODO only.
+- **Grey areas / notes:** Classroom task, not assessed. The `DieRoll` class and the route body are the lesson, so they are left for Andy.
+- **Follow-up (Task 4.4):** At Andy's request, published a private reference page (https://claude.ai/artifact/Rhdsu7fGcRgGFcPdeWwNxk) covering constructors and properties, init blocks, require, Random, @Serializable and Ktor call.respond, with links to the official docs. The examples use other classes (Temperature, Percentage), not DieRoll, so the solution is not given. No repo files changed.
+- **Follow-up (Task 4.4):** Andy wrote the `DieRoll` class and the `get("/")` route. AI ran the server: 200, `application/json`, `{"sides":6,"result":N}`, and the result varied between 1 and 6 over 9 requests. Stopped the server, ran `./kotlin clean`, and reviewed the code (style and naming notes only; no edits).
+- **Follow-up (Task 4.4):** At Andy's explicit request, AI applied the review fixes. In `DieRoll.kt`: removed the TODO block, made `result` public, fixed spacing, removed a trailing space, added a final newline. In `Routing.kt`: renamed the variable `sides` to `roll`. The class logic Andy wrote is unchanged. Re-ran the server: still 200 JSON with varying results. Stopped the server and ran `./kotlin clean`. Committed Task 4.4.
