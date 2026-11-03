@@ -20,5 +20,36 @@ class ApplicationTest : FreeSpec({
         }
     }
 
-    // Add more tests here
+    "Path /hello/{name} yields a greeting with the name" {
+        testApplication {
+            configure()
+            val response = client.get("/hello/Charlie")
+            response.status shouldBe HttpStatusCode.OK
+            response.headers["Content-Type"]?.shouldContain("text/plain")
+            response.bodyAsText() shouldBe "Hello Charlie!"
+        }
+    }
+
+    "Different names have different greetings" {
+        testApplication {
+            configure()
+            val response1 = client.get("/hello/Alice")
+            response1.status shouldBe HttpStatusCode.OK
+            response1.headers["Content-Type"]?.shouldContain("text/plain")
+            response1.bodyAsText() shouldBe "Hello Alice!"
+
+            val response2 = client.get("/hello/Bob")
+            response2.status shouldBe HttpStatusCode.OK
+            response2.headers["Content-Type"]?.shouldContain("text/plain")
+            response2.bodyAsText() shouldBe "Hello Bob!"
+        }
+    }
+
+    "Path /hello/ with no name yields HttpStatusCode.NotFound" {
+        testApplication {
+            configure()
+            val response = client.get("/hello/")
+            response.status shouldBe HttpStatusCode.NotFound
+        }
+    }
 })

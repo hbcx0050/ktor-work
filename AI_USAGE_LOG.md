@@ -141,3 +141,20 @@ new entries.
 - **Follow-up (Task 4.4):** At Andy's request, published a private reference page (https://claude.ai/artifact/Rhdsu7fGcRgGFcPdeWwNxk) covering constructors and properties, init blocks, require, Random, @Serializable and Ktor call.respond, with links to the official docs. The examples use other classes (Temperature, Percentage), not DieRoll, so the solution is not given. No repo files changed.
 - **Follow-up (Task 4.4):** Andy wrote the `DieRoll` class and the `get("/")` route. AI ran the server: 200, `application/json`, `{"sides":6,"result":N}`, and the result varied between 1 and 6 over 9 requests. Stopped the server, ran `./kotlin clean`, and reviewed the code (style and naming notes only; no edits).
 - **Follow-up (Task 4.4):** At Andy's explicit request, AI applied the review fixes. In `DieRoll.kt`: removed the TODO block, made `result` public, fixed spacing, removed a trailing space, added a final newline. In `Routing.kt`: renamed the variable `sides` to `roll`. The class logic Andy wrote is unchanged. Re-ran the server: still 200 JSON with varying results. Stopped the server and ran `./kotlin clean`. Committed Task 4.4.
+
+### 2026-11-03: Task 4.5.1 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Fetched guide section 4.5 (Ktor > Testing Applications) and scoped Task 4.5.1. The starter already contains an `// Add more tests here` placeholder, so no scaffolding was needed. Ran `./kotlin test` as a baseline (1 test found, 1 passed), then ran `./kotlin clean`.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed. Writing the tests is the lesson, so it is left for Andy.
+- **Follow-up (Task 4.5.1):** Andy wrote tests for `/hello/{name}`. AI ran `./kotlin test`: compilation failed with 2 errors (`Unresolved reference 'response'` at lines 28 and 33). Reviewed the tests and reported the problems and the missing 404 test. No edits.
+- **Follow-up (Task 4.5.1):** At Andy's request ("clean it up"), AI fixed the two wrong variable references (`response` changed to `response1`/`response2`), fixed brace spacing and indentation, reordered the tests (single-name case first), and replaced the placeholder comment with a `// TODO` for the 404 test. The 404 test was left for Andy as the remaining part of the lesson. `./kotlin test`: 3 found, 3 passed. Mutation check on a scratch copy outside the repo, with the route hard-coded to `Hello Charlie!`: the Alice/Bob test failed as intended (2 passed, 1 failed). The scratch copy was deleted.
+- **Follow-up (Task 4.5.1):** Andy wrote the 404 test for `/hello/`. AI ran `./kotlin test`: 4 found, 4 passed. At Andy's request, removed the leftover `// TODO` line and committed Task 4.5.1. Also answered a general question about industry use of Ktor (Spring Boot dominant on the JVM; Ktor smaller but real) and about layered app architecture with a database.
+
+### 2026-11-03: End of session
+
+- **Progress:** Tasks 3.1 to 4.5.1 are complete, committed and pushed. `origin` now uses SSH, so Claude can push.
+- **Next:** Task 4.5.2 (testing HTML with Jsoup).
+- **AI use this session:** Scoped every task from its guide subsection. Ran builds, servers, tests and httpx checks. Created scaffolds (`form.html`, `DieRoll.kt` TODO). Wrote the Task 4.3 HTML pages and made code clean-ups on 4.4 and 4.5.1 at Andy's explicit request. Published a private reference page for 4.4. All details are in the entries above.
+- **Outstanding:** Agree a standard close-out routine for future sessions (discussed at the end of this session).
