@@ -158,3 +158,4 @@ new entries.
 - **Next:** Task 4.5.2 (testing HTML with Jsoup).
 - **AI use this session:** Scoped every task from its guide subsection. Ran builds, servers, tests and httpx checks. Created scaffolds (`form.html`, `DieRoll.kt` TODO). Wrote the Task 4.3 HTML pages and made code clean-ups on 4.4 and 4.5.1 at Andy's explicit request. Published a private reference page for 4.4. All details are in the entries above.
 - **Outstanding:** Agree a standard close-out routine for future sessions (discussed at the end of this session).
+- **Close-out:** At Andy's request, added a "Session close-out" routine to `CLAUDE.md`. Unfinished work is committed as `WIP: Task X.Y` by default, since Andy did not choose an alternative. Followed the routine: no servers running, build output cleaned, all work committed and pushed.

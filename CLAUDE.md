@@ -72,6 +72,25 @@ past entries; add corrections as new entries.
   messages.** AI involvement is recorded in `AI_USAGE_LOG.md`, not in commit
   metadata.
 
+## Session close-out
+
+When Andy says "close out" (or similar), do the following in order:
+
+1. **Stop and clean.** Stop any servers started this session. Run
+   `./kotlin clean` (or `./gradlew clean`) in each task touched.
+2. **Check `git status`.** Make sure nothing stray gets committed, such as zips,
+   build output or scratch files.
+3. **Commit finished tasks.** Make one commit per task, e.g. `Task 4.3: ...`.
+4. **Commit unfinished work as WIP.** Use `WIP: Task X.Y: <where it stopped>`
+   so that nothing exists only locally. Record the stopping point in the log.
+5. **Write the log entry.** Append an end-of-session entry to
+   `AI_USAGE_LOG.md` covering progress, the next task, and anything
+   outstanding. The next session starts from this entry.
+6. **Push and verify.** Run `git push`, then confirm `main` is in sync with
+   `origin/main`. If the push fails, say so; don't report the session as closed.
+7. **Summarise.** Tell Andy what was committed and where the next session
+   starts.
+
 ## Running servers and checks
 
 - `./run` starts a long-running Ktor server in the task directory. Run it in the
