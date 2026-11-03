@@ -110,3 +110,14 @@ new entries.
 - **AI-written code:** None. All files were generated from the toolchain template.
 - **Grey areas / notes:** Classroom task, not assessed.
 - **Follow-up:** Committed Task 4.1.
+- **Follow-up:** Fetched guide section 4.2 (Ktor > Other Creation Tools) and scoped Task 4.2. Andy uses the web generator themself.
+
+### 2026-11-03: Task 4.2 - generated project build and run
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **Work covered:** Andy generated `ktor-sample` on start.ktor.io with the Routing, Static Content, Pebble, Status Pages and Resources plugins, then unzipped it into `tasks/task4_2`. At Andy's request, AI ran step 6.
+- **AI did:** Ran `./gradlew build` (successful, tests passed) and `./gradlew run`, then tested every route with `curl`. Stopped the server and the Gradle daemon. Explained the results.
+- **Student did:** Used the web generator, chose the plugins, downloaded and unpacked the project.
+- **AI-written code:** None. Made `gradlew` executable with `chmod +x`.
+- **Grey areas / notes:** Classroom task, not assessed. `/pebble-index` returned 500 because the generator's template lives in `resources/` but the Pebble loader looks in `resources/templates/`. This was reported to Andy, not fixed.
+- **Follow-up:** Committed Task 4.2 as generated. Pebble path bug left unfixed by choice (no source edits without an explicit request). Scoped Task 4.3.
