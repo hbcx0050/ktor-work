@@ -130,3 +130,4 @@ new entries.
 - **AI-written code:** `tasks/task4_3/resources/static/index.html`, `tasks/task4_3/resources/static/about.html`.
 - **Follow-up (Task 4.3):** At Andy's request, changed the `index.html` heading to `Home (edited)` while the server was running. The server kept serving the old heading until it was rebuilt and restarted, which demonstrates that resources are packaged into the JAR. Server left running for Andy to view.
 - **Follow-up:** Stopped the server, ran `./kotlin clean`, and committed Task 4.3.
+- **Follow-up:** Andy switched `origin` to SSH (`git@github.com:hbcx0050/ktor-work.git`) and pushed. AI confirmed `main` is in sync with `origin/main`. Pushing now works from Claude's shell.
