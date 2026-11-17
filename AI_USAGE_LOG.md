@@ -159,3 +159,13 @@ new entries.
 - **AI use this session:** Scoped every task from its guide subsection. Ran builds, servers, tests and httpx checks. Created scaffolds (`form.html`, `DieRoll.kt` TODO). Wrote the Task 4.3 HTML pages and made code clean-ups on 4.4 and 4.5.1 at Andy's explicit request. Published a private reference page for 4.4. All details are in the entries above.
 - **Outstanding:** Agree a standard close-out routine for future sessions (discussed at the end of this session).
 - **Close-out:** At Andy's request, added a "Session close-out" routine to `CLAUDE.md`. Unfinished work is committed as `WIP: Task X.Y` by default, since Andy did not choose an alternative. Followed the routine: no servers running, build output cleaned, all work committed and pushed.
+
+### 2026-11-17: Task 4.5.2 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Ran `git pull` (already up to date) and read the last log entry to find the next task. Fetched guide section 4.5 (Ktor > Testing Applications, "Testing HTML") and scoped Task 4.5.2. The starter already has the JSoup dependency in `module.yaml` and the `Jsoup` and `shouldHaveSize` imports in the test, so no scaffolding was needed. Ran `./kotlin test` as a baseline (2 found, 2 passed), then ran `./kotlin clean`.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed. The HTML experiments and the JSoup test are the lesson, so they are left for Andy.
+- **Follow-up (Task 4.5.2):** At Andy's request ("execute steps"), AI ran every step in a scratch copy outside the repo. With the original string test: moving `<title>` into `<body>` still passed (2/2, a false pass), and adding line breaks inside `<title>` failed (1/2, a false fail). AI then swapped in a JSoup test (`Jsoup.parse`, `select("head > title")`, `shouldHaveSize 1`, `.text() shouldBe "My Document"`) in the same scratch copy. Results: original page passed 2/2, line breaks passed 2/2, title in body failed 1/2 ("size 1 but has size 0"). Deleted the scratch copy. The repo's source files are unchanged. Explained the lesson. The JSoup test is still for Andy to write in the repo.
+- **Follow-up (Task 4.5.2):** At Andy's explicit request ("change the source"), AI replaced the string-based title check in `tasks/task4_5_2/test/ApplicationTest.kt` with the JSoup test from the scratch run. `index.html` is unchanged. `./kotlin test`: 2 found, 2 passed. Ran `./kotlin clean` and committed Task 4.5.2.
+- **AI-written code:** The four lines of the JSoup assertion in the `"Valid title present"` test.
