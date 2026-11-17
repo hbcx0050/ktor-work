@@ -205,3 +205,23 @@ new entries.
   - Also answered a question about `.peb` syntax highlighting. No dedicated Pebble extension was found, so AI suggested associating `.peb` with a Twig/Jinja-style grammar. No repo settings were changed.
 - **AI-written code:** `form.peb` and `result.peb` refactored (the original content moved into blocks), and the one-word stylesheet change in `base.peb`.
 - **Follow-up (Task 4.6.2):** Andy's browser could not connect because the server had been stopped after the checks. AI restarted it and left it running while Andy viewed both pages. On Andy's "done", stopped the server, ran `./kotlin clean` and committed Task 4.6.2.
+
+### 2026-11-17: Task 4.7 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Committed and pushed Task 4.6.2 (`main` is in sync with `origin/main`). Fetched guide section 4.7 (Ktor > Request Handling) and scoped Task 4.7. The starter already has placeholder comments for both routes in `Routing.kt`, so no scaffolding was needed.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed.
+- **Follow-up (Task 4.7):** Andy changed the form to POST and wrote both routes. AI ran the server:
+  - `POST /roll` returned 500 with `RequestAlreadyConsumedException`, because `receiveParameters()` is called twice.
+  - `GET /roll/3d8` returned 200, but the values were blank, because the context key `diceRoll` doesn't match `roll` in `result.peb`.
+  - The Repeat button has not been removed yet.
+  - Stopped the server and ran `./kotlin clean`. Reported the findings. No edits.
+- **Follow-up (Task 4.7):** At Andy's explicit request ("fix these things"), AI edited `Routing.kt` and `result.peb`. By this point Andy had already changed POST to call `receiveParameters()` once, and had also changed the GET route to `receiveParameters()`, which is wrong for a GET. AI's changes:
+  - Context key changed from `diceRoll` to `roll` in both routes.
+  - Brace spacing fixed and the defaults simplified (`?: 6` moved onto the parameter line).
+  - The GET route reverted to path parameters.
+  - Removed the Repeat button from `result.peb`.
+  - Testing showed Ktor did not extract two parameters from the single segment `{numDice}d{dieSides}` (every URL rolled 1d6, even `/roll/abc`). AI replaced it with `get("/roll/{spec}")`, which splits the spec on `"d"`.
+- **Results:** POST 3d8 works, and `/roll/3d8`, `/roll/1d20` and `/roll/12d6` all work. `/roll/3d7` and `/roll/0d6` return 500 (`require` fails, which is expected until 4.9). `/roll/abc` falls back to 1d6. Stopped the server and ran `./kotlin clean`.
+- **AI-written code:** The fixes listed above, including the `{spec}` parsing (3 lines).
