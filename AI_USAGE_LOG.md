@@ -184,3 +184,24 @@ new entries.
 - **Follow-up (Task 4.6.1):** At Andy's explicit request, AI wrote the standard HTML structure in `roll.peb` (doctype, `html lang`, head with charset, viewport and title, empty body). The body holds only a Pebble `{# TODO #}` comment, because showing the roll values is the lesson. AI also restated the task steps and reference docs in chat.
 - **Follow-up (Task 4.6.1):** Andy wrote the `roll.peb` body and the `get("/")` route. AI reviewed `roll.peb` and suggested tidy-ups (remove the TODO, add spaces inside the braces, rewrite the sentence), which Andy applied. AI ran the server: `/` returned 200 `text/html` with the rendered roll, and the result varied over 5 requests (5, 5, 4, 3, 4). `/json` still returned 200 `application/json`. Stopped the server and ran `./kotlin clean`. Explained where `call` and `respondTemplate` come from and what the parameters are. No code edits by AI.
 - **Follow-up (Task 4.6.1):** At Andy's request ("cleanup"), AI made three changes: removed the leftover `// TODO` in `Routing.kt`, changed `get("/"){` to `get("/") {`, and changed the `roll.peb` heading to `Die Roll`. Re-ran the server: `/` 200 HTML and `/json` 200 JSON. Stopped the server, ran `./kotlin clean` and committed Task 4.6.1.
+
+### 2026-11-17: Task 4.6.2 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Committed and pushed Task 4.6.1 (`main` is in sync with `origin/main`). Fetched guide section 4.6 (Using Templates, template inheritance) and scoped Task 4.6.2. The starter is complete, so no scaffolding was needed. Ran steps 2 and 3:
+  - `/` returned 200 HTML (the form).
+  - `/roll?num_dice=3&die_sides=8` showed 3d8 with the die values and the total.
+  - `/roll?num_dice=1&die_sides=20` showed a single result.
+  - Stopped the server and ran `./kotlin clean`.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed. The refactor to `base.peb` plus `extends`/`block` is the lesson, so it is left for Andy.
+- **Follow-up (Task 4.6.2):** At Andy's explicit request ("do 1"), AI created `tasks/task4_6_2/resources/templates/base.peb`. It contains the shared markup from `form.peb`/`result.peb` (doctype, head, Pico link, `<main class="container">`, footer), a `title` block defaulting to "Dice Roller", and an empty `body` block inside `<main>`. The child templates are not changed yet; that is step 2.
+- **AI-written code:** `base.peb` (shared markup moved from the starter templates, plus two block tags).
+- **Follow-up (Task 4.6.2):** At Andy's explicit request ("go ahead and solve"), AI did the following:
+  - **Step 2:** rewrote `form.peb` and `result.peb` to `{% extends "base.peb" %}`. `form.peb` uses only the `body` block and inherits the default title. `result.peb` overrides `title` with "Dice Roll Result".
+  - **Step 5:** captured the rendered HTML before and after the refactor (random numbers masked). `/`, a 3d8 roll and a 1d20 roll were identical, ignoring whitespace.
+  - **Step 6:** changed `pico.min.css` to `pico.pumpkin.min.css` in `base.peb` only. Both `/` and `/roll` then linked the pumpkin stylesheet, and the CDN returned 200 for it. The change is left in place as the task's end state.
+  - **Step 7:** stopped the server and ran `./kotlin clean`.
+  - Also answered a question about `.peb` syntax highlighting. No dedicated Pebble extension was found, so AI suggested associating `.peb` with a Twig/Jinja-style grammar. No repo settings were changed.
+- **AI-written code:** `form.peb` and `result.peb` refactored (the original content moved into blocks), and the one-word stylesheet change in `base.peb`.
+- **Follow-up (Task 4.6.2):** Andy's browser could not connect because the server had been stopped after the checks. AI restarted it and left it running while Andy viewed both pages. On Andy's "done", stopped the server, ran `./kotlin clean` and committed Task 4.6.2.
