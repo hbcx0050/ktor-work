@@ -169,3 +169,18 @@ new entries.
 - **Follow-up (Task 4.5.2):** At Andy's request ("execute steps"), AI ran every step in a scratch copy outside the repo. With the original string test: moving `<title>` into `<body>` still passed (2/2, a false pass), and adding line breaks inside `<title>` failed (1/2, a false fail). AI then swapped in a JSoup test (`Jsoup.parse`, `select("head > title")`, `shouldHaveSize 1`, `.text() shouldBe "My Document"`) in the same scratch copy. Results: original page passed 2/2, line breaks passed 2/2, title in body failed 1/2 ("size 1 but has size 0"). Deleted the scratch copy. The repo's source files are unchanged. Explained the lesson. The JSoup test is still for Andy to write in the repo.
 - **Follow-up (Task 4.5.2):** At Andy's explicit request ("change the source"), AI replaced the string-based title check in `tasks/task4_5_2/test/ApplicationTest.kt` with the JSoup test from the scratch run. `index.html` is unchanged. `./kotlin test`: 2 found, 2 passed. Ran `./kotlin clean` and committed Task 4.5.2.
 - **AI-written code:** The four lines of the JSoup assertion in the `"Valid title present"` test.
+
+### 2026-11-17: Task 4.6.1 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Pushed Task 4.5.2 once Andy had changed the GitHub email privacy setting, and confirmed `main` is in sync with `origin/main`. Fetched guide section 4.6 (Ktor > Using Templates) and scoped Task 4.6.1. The guide's code listings were not in the fetched text, so AI took the Pebble config module from the identical `tasks/task4_6_2/src/Templates.kt`. Under the standing scaffolding request, AI did the following:
+  - Created `tasks/task4_6_1/src/Templates.kt`, a copy of the guide's `configureTemplates()` with only the header comment changed.
+  - Replaced the placeholder comment in `Application.kt` with a call to `configureTemplates()`, placed between serialization and routing as the guide specifies.
+  - Created `resources/templates/roll.peb` containing only a Pebble `{# TODO #}` comment.
+  - Turned the placeholder in `Routing.kt` into a `// TODO` for the `get("/")` route.
+  - Confirmed the project builds, then ran `./kotlin clean`. The `$ktor.server.pebble` dependency was already in `module.yaml`.
+- **AI-written code:** Config boilerplate only (`Templates.kt`, one call in `Application.kt`). The template and the route are left for Andy.
+- **Grey areas / notes:** Classroom task, not assessed.
+- **Follow-up (Task 4.6.1):** At Andy's explicit request, AI wrote the standard HTML structure in `roll.peb` (doctype, `html lang`, head with charset, viewport and title, empty body). The body holds only a Pebble `{# TODO #}` comment, because showing the roll values is the lesson. AI also restated the task steps and reference docs in chat.
+- **Follow-up (Task 4.6.1):** Andy wrote the `roll.peb` body and the `get("/")` route. AI reviewed `roll.peb` and suggested tidy-ups (remove the TODO, add spaces inside the braces, rewrite the sentence), which Andy applied. AI ran the server: `/` returned 200 `text/html` with the rendered roll, and the result varied over 5 requests (5, 5, 4, 3, 4). `/json` still returned 200 `application/json`. Stopped the server and ran `./kotlin clean`. Explained where `call` and `respondTemplate` come from and what the parameters are. No code edits by AI.
+- **Follow-up (Task 4.6.1):** At Andy's request ("cleanup"), AI made three changes: removed the leftover `// TODO` in `Routing.kt`, changed `get("/"){` to `get("/") {`, and changed the `roll.peb` heading to `Die Roll`. Re-ran the server: `/` 200 HTML and `/json` 200 JSON. Stopped the server, ran `./kotlin clean` and committed Task 4.6.1.
