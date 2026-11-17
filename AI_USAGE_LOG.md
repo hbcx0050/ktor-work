@@ -225,3 +225,34 @@ new entries.
   - Testing showed Ktor did not extract two parameters from the single segment `{numDice}d{dieSides}` (every URL rolled 1d6, even `/roll/abc`). AI replaced it with `get("/roll/{spec}")`, which splits the spec on `"d"`.
 - **Results:** POST 3d8 works, and `/roll/3d8`, `/roll/1d20` and `/roll/12d6` all work. `/roll/3d7` and `/roll/0d6` return 500 (`require` fails, which is expected until 4.9). `/roll/abc` falls back to 1d6. Stopped the server and ran `./kotlin clean`.
 - **AI-written code:** The fixes listed above, including the `{spec}` parsing (3 lines).
+
+### 2026-11-17: Task 4.8 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Committed and pushed Task 4.7 (`main` is in sync with `origin/main`). Fetched guide section 4.8 (Ktor > Organizing Routes) and scoped Task 4.8. The starter is complete, so no scaffolding was needed. Ran the baseline: `/` returned 200, and `/roll?num_dice=2&die_sides=10` rendered the result with a Repeat link. Stopped the server and ran `./kotlin clean`.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed. The refactor is the lesson.
+- **Follow-up (Task 4.8):** At Andy's request to go through the task one step at a time, AI did step 1. It added `suspend fun RoutingCall.diceForm()` and `RoutingCall.rollResult()` to `Routing.kt`, containing the existing route bodies with `call.` removed. The routes are not yet changed to use them. `./kotlin build` succeeded, then AI ran `./kotlin clean`.
+- **Follow-up (Task 4.8):** Step 2: AI replaced the route bodies with `get("/") { call.diceForm() }` and `get("/roll") { call.rollResult() }`. Build succeeded. `/` returned 200, and `/roll?num_dice=2&die_sides=10` rendered as before, with the Repeat link. Stopped the server and ran `./kotlin clean`.
+- **Follow-up (Task 4.8):** Step 3 (optional; Andy left the choice to AI): moved the extension properties and the handlers into a new `src/Handlers.kt`, and reduced `Routing.kt` to `configureRouting()` with only the `application` and `routing` imports. Build succeeded with no warnings. `/` returned 200 and `/roll?num_dice=3&die_sides=4` rendered correctly. Stopped the server and ran `./kotlin clean`. Explained where `suspend` and `RoutingCall` come from.
+- **AI-written code:** The 4.8 refactor (handler functions, the routing block and the file split). The logic is unchanged from the starter.
+- **Follow-up (Task 4.8):** Andy accepted the refactor. Committed Task 4.8.
+
+### 2026-11-17: End of session
+
+- **Progress:** Tasks 4.5.2, 4.6.1, 4.6.2, 4.7 and 4.8 are complete, committed and pushed. There is no unfinished work.
+- **Next:** Task 4.9 (Ktor > Dealing With Errors, https://comp2850.github.io/ktor-guide/ktor/errors/). It connects to 4.7, where `/roll/3d7` and `/roll/0d6` currently return an unhandled 500 from `DiceRoll`'s `require`.
+- **AI use this session:** For each task, AI fetched and cited the guide section, ran baselines, builds, servers and curl checks, and stopped and cleaned afterwards. AI-written code, each piece at Andy's explicit request:
+  - JSoup test (4.5.2).
+  - `Templates.kt`/`Application.kt` boilerplate and `roll.peb` HTML structure (4.6.1).
+  - Clean-ups to Andy's 4.6.1 code.
+  - `base.peb` plus the refactored `form.peb`/`result.peb` (4.6.2).
+  - Fixes to Andy's 4.7 routes and template.
+  - The whole 4.8 refactor, done step by step with explanations.
+
+  Andy wrote the 4.6.1 template body and route and the first drafts of the 4.7 routes. All details are in the entries above.
+- **Outstanding / notes:**
+  - GitHub rejected the first 4.5.2 push with GH007 (private email). Andy changed the GitHub email setting and pushes now work.
+  - When killing servers, `pkill -f` matched Claude's own shell. Stopping a server by its listening PID (`ss -ltnp`) works reliably.
+  - Suggested a `files.associations` setting (`*.peb` to Twig/Jinja) for `.peb` syntax highlighting. It would go in Andy's user settings, not the repo.
+- **Close-out:** Followed the CLAUDE.md routine. No servers running, `./kotlin clean` run in every task touched, working tree clean, `main` pushed and in sync with `origin/main`.
