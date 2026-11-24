@@ -20,7 +20,19 @@ fun main() {
     transaction {
         // Find & display all the bands in the database
 
-        // Find & display details of all albums recorded after a specific year
+        println("Bands in the database:")
+        ArtistTable.selectAll().where { ArtistTable.isSolo eq false }.forEach {
+            println(it[ArtistTable.artistName])
+        }
 
+        // Find & display details of all albums recorded after a specific year
+        val specificYear = 1960
+        println("Albums recorded after $specificYear:")
+        (AlbumTable innerJoin ArtistTable)
+            .selectAll()
+            .where { AlbumTable.year greater specificYear }
+            .forEach {
+                println("${it[ArtistTable.artistName]} - ${it[AlbumTable.title]} (${it[AlbumTable.year]})")
+            }
     }
 }
