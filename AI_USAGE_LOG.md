@@ -256,3 +256,96 @@ new entries.
   - When killing servers, `pkill -f` matched Claude's own shell. Stopping a server by its listening PID (`ss -ltnp`) works reliably.
   - Suggested a `files.associations` setting (`*.peb` to Twig/Jinja) for `.peb` syntax highlighting. It would go in Andy's user settings, not the repo.
 - **Close-out:** Followed the CLAUDE.md routine. No servers running, `./kotlin clean` run in every task touched, working tree clean, `main` pushed and in sync with `origin/main`.
+
+### 2026-11-24: Task 4.9 - kickoff
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Ran `git pull` (already up to date). Fetched guide section 4.9 (Ktor > Dealing With Errors) and scoped Task 4.9. The starter is complete: `Errors.kt` and both error templates are provided, and `$ktor.server.statusPages` is already in `module.yaml`. No scaffolding was needed. Ran the "default error responses" baseline: `/` returned 200, `/bad` returned an empty 404, and `/roll?num_dice=2&die_sides=7` returned 500 with the plain-text body `Invalid sides: 7`, plus `IllegalArgumentException` in the server log. Stopped the server.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed. The task is mostly observation. The only required edit is uncommenting `configureErrorHandling()`, and changing the templates is optional.
+- **Follow-up (Task 4.9):** Andy asked AI to run observational tasks like this one itself and then teach the content, instead of giving Andy steps to do (saved as a standing preference in Claude's memory). AI uncommented `configureErrorHandling()` in `Application.kt` (the task's only required edit). It reran the server and found:
+  - `/bad` now renders `not-found.peb`.
+  - `die_sides=7` and `num_dice=abc` both render `error.peb` with the exception message.
+  - Valid rolls are unchanged.
+  - All three error pages return HTTP **200**, because `respondTemplate` defaults to 200 OK, and the exception no longer appears in the server log.
+  
+  AI explained these results without changing the templates (the optional experiment was skipped). It stopped the server and ran `./kotlin clean`.
+- **AI-written code:** The one-line uncomment in `Application.kt`.
+- **Follow-up (Task 4.9):** Andy understood the summary and moved on. Committed and pushed Task 4.9 (`32af3e1`).
+
+### 2026-11-24: Task 5.3 - contrast analysis
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Fetched guide section 5.3 (Accessibility > The WCAG Standard, https://comp2850.github.io/ktor-guide/a11y/wcag). The task is a by-hand contrast check of `text.html`/`text.css` against WCAG 1.4.3 and 1.4.6, with no testing tools allowed. Under Andy's standing preference for tedious tasks, AI did the analysis:
+  - Converted the hex colours to RGB.
+  - Computed the WCAG relative luminances (text 0.1434, background 0.8297) and the contrast ratio (4.55:1). The arithmetic was checked with a short Python one-liner run in the shell; no testing tool was used.
+  - Wrote the working and conclusions into `analysis.md`. The page passes 1.4.3 (AA) only just and fails 1.4.6 (AAA); the `h1` alone would pass 1.4.6 as large text.
+- **AI-written content:** `analysis.md` (filled in the provided skeleton).
+- **Grey areas / notes:** Classroom task, not assessed. The guide intends students to do the calculation by hand; AI did it, so Andy has not done the arithmetic themselves.
+- **Follow-up (Task 5.3):** Andy reviewed the analysis. Committed and pushed Task 5.3 (`11cc95d`).
+
+### 2026-11-24: Task 6.4 - representing tables
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Fetched guide section 6.4 (Databases > Representing Tables, https://comp2850.github.io/ktor-guide/db/tables). The task is observational and the starter is complete, so under Andy's standing preference AI ran it end to end:
+  - Read both modules. `database` (a library) holds `MusicDatabase`, `ArtistTable` and `AlbumTable`. `create` (an app) drops and recreates the tables.
+  - Ran `./kotlin run`. The log showed the DROP, CREATE TABLE, unique-constraint and foreign-key (ON DELETE CASCADE) statements, and `music.mv.db` was created (it is gitignored).
+  - Instead of downloading the H2 client zip, ran the H2 jar from the Kotlin CLI's local Maven cache with `org.h2.tools.Shell`. It confirmed the tables `ARTIST` and `ALBUM` exist and that `SELECT * FROM ARTIST` returns 0 rows.
+  - Ran `./kotlin clean`.
+- **AI-written code:** None.
+- **Grey areas / notes:** Classroom task, not assessed. There were no source changes, so there is nothing to commit for 6.4.
+
+### 2026-11-24: Task 6.5 - SQL DSL
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Fetched guide section 6.5 (Databases > Using Exposed's SQL DSL, https://comp2850.github.io/ktor-guide/db/sql-dsl) and scoped the task with hints. This is a coding task, so Andy writes it. The starter already has placeholder comments, so no scaffolding was needed.
+- **Follow-up (Task 6.5, create module):** Andy wrote the inserts in `create/src/Main.kt`. AI ran the build, which failed with 17 compile errors, and explained them: the code used column names that don't exist (`name`, `genre`, `releaseYear`, `artistId`), and `isSolo` was never set, so there was no solo artist. At Andy's explicit request ("fix it then run"), AI fixed the code:
+  - Renamed the columns to `artistName`, `year` and `artist`, and removed `genre`.
+  - Set `isSolo = true` for Miles Davis and Taylor Swift.
+  - Switched to `insertAndGetId` and dropped the unused album `val`s.
+  
+  Andy's data (artists, albums, years) was kept unchanged. The `create` module ran: the log shows 3 artist and 4 album INSERTs, and the H2 shell confirmed the rows.
+- **AI-written code:** The fixes to `create/src/Main.kt` listed above.
+- **Follow-up (Task 6.5, query module):** Andy wrote the band and album queries in `query/src/Main.kt`. AI ran the build, which failed with 3 compile errors, and explained them:
+  - `select { }` is the old Exposed filtering API; Exposed 1.x uses `selectAll().where { }`.
+  - Kotlin's `>` was used instead of the DSL's `greater`.
+  - The album output was missing the artist name, which needs a join.
+  
+  At Andy's explicit request ("fix and run"), AI changed both queries to `selectAll().where { }`, used `greater`, and joined `AlbumTable innerJoin ArtistTable` to print `artist - title (year)`. Andy's structure and the 1960 cut-off were kept.
+- **Results:** 3 artists and 4 albums. The only band is The Beatles. The albums after 1960 are Abbey Road (1969), 1989 (2014) and Revolver (1966). The logged SQL included `WHERE ARTIST.IS_SOLO = FALSE` and `ALBUM INNER JOIN ARTIST ON ARTIST.ID = ALBUM.ARTIST_ID WHERE ALBUM."year" > 1960`. Ran `./kotlin clean`.
+- **AI-written code:** The query fixes above.
+- **Follow-up (Task 6.5):** Committed and pushed Task 6.5 (`349a103`).
+
+### 2026-11-24: Task 6.6 - DAO API
+
+- **Tool / model:** Claude Code in VS Code (Opus 5.5)
+- **AI did:** Fetched guide section 6.6 (Databases > Using The DAO API, https://comp2850.github.io/ktor-guide/db/dao) and scoped the task with hints. This is a coding task, so Andy writes it. The placeholder comments are already in `ArtistsPage.kt`, `AlbumsPage.kt`, `artists.peb` and `albums.peb`, so no scaffolding was needed.
+  - Did the setup step: copied `music.mv.db` from `task6_5` (it is gitignored).
+  - Ran the baseline: the home page shows 3 artists and 4 albums, and `/artists` and `/albums` render only their headings.
+  - Stopped the server.
+- **AI-written code:** None.
+- **Follow-up (Task 6.6):** Andy wrote `ArtistsPage.kt`, `artists.peb` and the `AlbumsPage.kt` query. At Andy's request ("check my code, anything wrong then fix it, then run it"), AI reviewed it.
+  - The artists page was correct and was left unchanged: it maps to a sorted list of names.
+  - The albums page pre-formatted each album into an `"artist - title (year)"` string, but the task asks for a table with separate columns, and `albums.peb` had not been written.
+  - AI changed `AlbumsPage.kt` to pass the sorted `Album` entities. It also renamed the comparator variable from `albums` to `comparator`.
+  - AI wrote the `albums.peb` table (Artist, Title and Year columns, using `album.artist.name`).
+- **Results:** The home page shows 3 artists and 4 albums. `/artists` lists Miles Davis, Taylor Swift and The Beatles. `/albums` lists Kind of Blue (1959), 1989 (2014), Revolver (1966) and Abbey Road (1969), sorted by artist and then year. There were no errors in the log. Stopped the server and ran `./kotlin clean`.
+- **AI-written code:** The `AlbumsPage.kt` changes and the `albums.peb` table.
+- **Follow-up (Task 6.6):** Andy accepted the result. Committed Task 6.6 (`9220ce3`).
+
+### 2026-11-24: End of session
+
+- **Progress:** Tasks 4.9, 5.3, 6.4, 6.5 and 6.6 are complete. 4.9, 5.3, 6.5 and 6.6 are committed and pushed. 6.4 needed no source changes, so it has no commit. There is no unfinished work.
+- **Next:** Task 6.7 (Databases > Testing, https://comp2850.github.io/ktor-guide/db/testing).
+- **AI use this session:** Details are in the entries above. In summary:
+  - Andy set a standing preference: for observational tasks (run, watch, uncomment), AI runs them and then teaches the content.
+  - Under that preference AI did 4.9 (the one-line uncomment) and 6.4 (run and inspect only). It also did the 5.3 contrast calculation and wrote `analysis.md`, so Andy did not do that arithmetic by hand.
+  - For the coding tasks, Andy wrote first drafts and AI fixed them at Andy's explicit request:
+    - 6.5: wrong column names, the old `select { }` API, a missing join.
+    - 6.6: pre-formatted album strings, and the missing `albums.peb` table.
+  - Also explained a library ERD example in Exposed (chat only, not in the repo).
+- **Outstanding / notes:**
+  - The `music.mv.db` files in 6.4, 6.5 and 6.6 are gitignored and left in place. 6.6 needs its own copy to run.
+  - The H2 client zip was never downloaded. The H2 jar already in the Kotlin CLI Maven cache (`~/.cache/JetBrains/Kotlin/.m2.cache/com/h2database/h2/2.5.252/`) works with `java -cp <jar> org.h2.tools.Shell -url jdbc:h2:./music -user "" -password ""`.
+  - Found in 4.9: the StatusPages handlers render with 200 OK, because no status is passed to `respondTemplate`. This was explained but not changed, since it is outside the task.
+- **Close-out:** Followed the CLAUDE.md routine. No servers running, `./kotlin clean` run in 4.9, 6.4, 6.5 and 6.6, and no stray files staged.
